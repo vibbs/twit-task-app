@@ -1,6 +1,5 @@
 import React, {Component}  from 'react';
 import io from "socket.io-client";
-import axios from 'axios';
 import Tweet from './Tweet';
 import { css } from 'react-emotion';
 import { CircleLoader } from 'react-spinners';
