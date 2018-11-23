@@ -30,7 +30,6 @@ class TweetClass extends Component {
 		this.state = {
 			item : props.item
         }
-        console.log(props.item);
 	}
     render(){
 
