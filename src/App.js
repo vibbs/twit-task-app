@@ -11,7 +11,7 @@ firebase.initializeApp({
 })
 
 class App extends Component {
-  state = { isSignedIn: false }
+  state = { isSignedIn: false , userID :''}
   uiConfig = {
     signInFlow: "popup",
     signInOptions: [
@@ -24,7 +24,10 @@ class App extends Component {
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isSignedIn: !!user })
+      
+      this.setState({ isSignedIn: !!user });
+      if(user)
+      this.setState({ userID : user.providerData[0].uid });
     })
   }
 
@@ -59,7 +62,7 @@ class App extends Component {
       <div className="container">
 
            {this.state.isSignedIn ? (
-             <TweetsApp />
+             <TweetsApp userId={this.state.userID}/>
            ) : (
             <div>
                 <h3>Please signIn to see twitter stream!</h3>

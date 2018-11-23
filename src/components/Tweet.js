@@ -1,5 +1,5 @@
 import React, {Component}  from 'react';
-import Tweet from 'react-tweet';
+import {TwitterTweetEmbed} from 'react-twitter-embed';
 
 
 // const tweetData = {
@@ -29,13 +29,20 @@ class TweetClass extends Component {
 		super(props);
 		this.state = {
 			item : props.item
-		}
+        }
+        console.log(props.item);
 	}
     render(){
 
         const linkProps = {target: '_blank', rel: 'noreferrer'}
         return (  
-            <Tweet data={this.state.item} linkProps={linkProps} />
+            <div>
+                {/* <Tweet data={this.state.item} linkProps={linkProps} /> */}
+                <TwitterTweetEmbed
+                    tweetId={this.state.item.id_str}
+                />
+            </div>
+            
         )
     }
 

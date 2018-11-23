@@ -13,25 +13,30 @@ const override = css`
 
 
 class Tweets extends Component {
-    constructor(){
-		super();
-		this.state = {
+    constructor(props){
+        super(props);
+        this.state = {
+            userId : props.userId,
             tweets : [],
             loading: true
-		}
-	}
+        }
+    }
     componentDidMount(){
 		this.getTweets();
 	}
     getTweets(){
-        const socket = io(process.env.REACT_APP_BACKEND_API);
+        
+        const socket = io(process.env.REACT_APP_BACKEND_API, {query:"userId="+this.state.userId});
 
         socket.on('connect', () => {
             console.log("Socket Connected");
             socket.on("tweets", data => {
                 let new_tweets = [data].concat(this.state.tweets);
                 var new_tweets_unq = _.uniq(new_tweets, 'id_str')
-                this.setState({ tweets: new_tweets_unq , loading :false});
+
+                //sorting by created_at for better rendering
+                new_tweets_unq = _.sortBy(new_tweets_unq, function(o) { return new Date(o.created_at); })
+                this.setState({ tweets: new_tweets_unq.reverse() , loading :false});
             });
         });
         socket.on('disconnect', () => {
